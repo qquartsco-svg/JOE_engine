@@ -99,14 +99,15 @@ instability_raw = b1·planet_stress + b2·(W_surface / W_total) + b3·dW_surface
 
 ## 설치
 
-이 패키지는 **pyproject.toml을 포함한 표준 Python 패키지 구조**를 사용합니다.
+이 패키지는 **pyproject.toml을 포함한 표준 Python 패키지 구조**를 사용합니다. `pyproject.toml`은 **리포지터리 루트**에 있으므로, 설치 시 루트에서 실행합니다.
 
 ```bash
-# 이 리포지터리 클론 후
-cd joe_engine
+# 리포지터리 클론 후
+git clone https://github.com/qquartsco-svg/JOE_engine.git
+cd JOE_engine
+
+# 리포지터리 루트에서
 pip install -e .
-# 또는 상위에서 (pyproject.toml이 00_PLANET_LAYER에 있는 경우)
-cd 00_PLANET_LAYER && pip install -e .
 ```
 
 ---
@@ -149,9 +150,24 @@ stress, inst = compute_planet_stress_and_instability_from_snapshot(snap, config=
 ## CLI
 
 ```bash
+# 기본 스냅샷으로 실행
 python -m joe_engine
-# 또는 스냅샷 JSON 파일 경로 전달
+
+# 스냅샷 JSON 파일 경로 전달
 python -m joe_engine /path/to/snapshot.json
+```
+
+**스냅샷 JSON 예시** (`snapshot.json`으로 저장 후 `python -m joe_engine snapshot.json`):
+
+```json
+{
+  "sigma_plate": 0.1,
+  "P_w": 0.5,
+  "S_rot": 0.2,
+  "W_surface": 1e9,
+  "W_total": 1.4e9,
+  "dW_surface_dt_norm": 0.0
+}
 ```
 
 ---
@@ -182,16 +198,21 @@ python -m joe_engine /path/to/snapshot.json
 
 ## 폴더 구조
 
+표준 구조는 **리포지터리 루트**에 메타 파일, **패키지 디렉터리** `joe_engine/`에 Python 코드가 오는 방식입니다 (PyPI / GitHub 권장).
+
 ```
-joe_engine/
-├── __init__.py      # assess_planet, compute_planet_stress_and_instability_from_snapshot, DEFAULT_CONFIG, __version__
-├── explore.py       # 행성 탐색 API: assess_planet(snapshot, config=?) → PlanetAssessment
-├── _core.py         # PANGEA §4 로직 (planet_stress_raw, instability_raw) + DEFAULT_CONFIG
-├── __main__.py      # CLI
+JOE_engine/                    # 리포지터리 루트
 ├── README.md
-├── SIGNATURE.md     # 블록체인·서명 및 검증 안내
-├── pyproject.toml  # 표준 Python 패키지 설정 (pip install -e . 에 필요)
-└── requirements.txt # (비어 있음 — 표준 라이브러리만 사용)
+├── LICENSE
+├── SIGNATURE.md
+├── pyproject.toml
+├── requirements.txt
+│
+└── joe_engine/                # Python 패키지
+    ├── __init__.py
+    ├── explore.py
+    ├── _core.py
+    └── __main__.py
 ```
 
 ---
