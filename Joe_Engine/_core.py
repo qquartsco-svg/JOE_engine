@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from typing import Any, Dict
 
+# 계수는 CONFIG dict로 오버라이드 가능. 기본값만 상수로 둠.
 DEFAULT_REF_MIN = 0.0
 DEFAULT_REF_MAX = 2.0
 DEFAULT_A1 = 0.25
@@ -15,6 +16,15 @@ DEFAULT_B1 = 0.60
 DEFAULT_B2 = 0.20
 DEFAULT_B3 = 0.20
 P_REF_DEFAULT = 1.0
+
+DEFAULT_CONFIG = {
+    "ref_min": DEFAULT_REF_MIN,
+    "ref_max": DEFAULT_REF_MAX,
+    "a1": DEFAULT_A1, "a2": DEFAULT_A2, "a3": DEFAULT_A3,
+    "a4": DEFAULT_A4, "a5": DEFAULT_A5,
+    "b1": DEFAULT_B1, "b2": DEFAULT_B2, "b3": DEFAULT_B3,
+    "p_ref": P_REF_DEFAULT,
+}
 
 
 def _get_float(snapshot: Dict[str, Any], key: str, default: float = 0.0) -> float:

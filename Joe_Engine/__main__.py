@@ -38,6 +38,8 @@ def main():
     print("  instability: ", result.instability)
     print("  habitability:", result.habitability_label)
     print("  ", result.summary)
+    if getattr(result, "config_used", None):
+        print("  config_used:", list(result.config_used.keys()))
 
 
 if __name__ == "__main__":
